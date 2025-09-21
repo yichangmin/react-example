@@ -5,21 +5,49 @@ interface FooterProps {
   onDecrement: () => void;
 }
 
+type ACTION = 'increment' | 'decrement' | 'undo' | 'redo';
+
+const Actions: { text: string; action: ACTION }[] = [
+  {
+    text: '⇦',
+    action: 'undo',
+  },
+  {
+    text: '+',
+    action: 'increment',
+  },
+  {
+    text: '-',
+    action: 'decrement',
+  },
+  {
+    text: '⇨',
+    action: 'redo',
+  },
+];
+
 const Footer = ({ onIncrement, onDecrement }: FooterProps) => {
+  const handleAction = (action: ACTION) => {
+    switch (action) {
+      case 'increment':
+        onIncrement();
+        break;
+      case 'decrement':
+        onDecrement();
+        break;
+      case 'undo':
+        break;
+      case 'redo':
+        break;
+    }
+  };
   return (
     <FooterContainer>
-      <CircleButton>
-        <ActionText>⇦</ActionText>
-      </CircleButton>
-      <CircleButton onClick={onIncrement}>
-        <ActionText>+</ActionText>
-      </CircleButton>
-      <CircleButton onClick={onDecrement}>
-        <ActionText>-</ActionText>
-      </CircleButton>
-      <CircleButton>
-        <ActionText>⇨</ActionText>
-      </CircleButton>
+      {Actions.map((action) => (
+        <CircleButton key={action.action} onClick={() => handleAction(action.action)}>
+          <ActionText>{action.text}</ActionText>
+        </CircleButton>
+      ))}
     </FooterContainer>
   );
 };
