@@ -1,5 +1,8 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import Header from './components/Header';
+import Counter from './components/Counter';
+import Footer from './components/Footer';
 
 function App() {
   const [count, setCount] = useState<number>(0);
@@ -27,27 +30,9 @@ function App() {
 
   return (
     <AppContainer>
-      <HeaderContainer>
-        <Title>This is React Counter</Title>
-      </HeaderContainer>
-      <CounterContainer>
-        <NumberText>{count}</NumberText>
-        <StyledInput value={inputNumber} onChange={handleInputChange} />
-      </CounterContainer>
-      <FooterContainer>
-        <CircleButton>
-          <ActionText>⇦</ActionText>
-        </CircleButton>
-        <CircleButton onClick={handleIncrement}>
-          <ActionText>+</ActionText>
-        </CircleButton>
-        <CircleButton onClick={handleDecrement}>
-          <ActionText>-</ActionText>
-        </CircleButton>
-        <CircleButton>
-          <ActionText>⇨</ActionText>
-        </CircleButton>
-      </FooterContainer>
+      <Header />
+      <Counter count={count} inputNumber={inputNumber} onInputChange={handleInputChange} />
+      <Footer onIncrement={handleIncrement} onDecrement={handleDecrement} />
     </AppContainer>
   );
 }
@@ -62,66 +47,4 @@ const AppContainer = styled.div`
   height: 100vh;
   justify-content: center;
   align-items: center;
-`;
-
-const HeaderContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Title = styled.h1`
-  font-size: 60px;
-  font-weight: bold;
-`;
-
-const CounterContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  justify-content: center;
-  align-items: center;
-`;
-
-const NumberText = styled.span`
-  font-size: 80px;
-  font-weight: bold;
-  color: #02621d;
-`;
-
-const StyledInput = styled.input`
-  width: 300px;
-  height: 50px;
-  border: 1px solid #02621d;
-  border-radius: 12px;
-  text-align: center;
-  font-size: 32px;
-`;
-
-const FooterContainer = styled.div`
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  align-items: center;
-`;
-
-const CircleButton = styled.button`
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: #464cf0;
-  color: white;
-  cursor: pointer;
-  border: none;
-  &:hover {
-    background-color: #6f73e4;
-  }
-  &:active {
-    background-color: #464cf0;
-  }
-`;
-
-const ActionText = styled.span`
-  font-size: 24px;
-  font-weight: bold;
 `;
