@@ -1,10 +1,5 @@
 import styled from '@emotion/styled';
 
-interface FooterProps {
-  onIncrement: () => void;
-  onDecrement: () => void;
-}
-
 type ACTION = 'increment' | 'decrement' | 'undo' | 'redo';
 
 const Actions: { text: string; action: ACTION }[] = [
@@ -25,8 +20,16 @@ const Actions: { text: string; action: ACTION }[] = [
     action: 'redo',
   },
 ];
+interface FooterProps {
+  onIncrement: () => void;
+  onDecrement: () => void;
+  onUndo: () => void;
+  onRedo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
+}
 
-const Footer = ({ onIncrement, onDecrement }: FooterProps) => {
+const Footer = ({ onIncrement, onDecrement, onUndo, onRedo, canUndo, canRedo }: FooterProps) => {
   const handleAction = (action: ACTION) => {
     switch (action) {
       case 'increment':
@@ -36,15 +39,23 @@ const Footer = ({ onIncrement, onDecrement }: FooterProps) => {
         onDecrement();
         break;
       case 'undo':
+        onUndo();
         break;
       case 'redo':
+        onRedo();
         break;
     }
   };
   return (
     <FooterContainer>
       {Actions.map((action) => (
-        <CircleButton key={action.action} onClick={() => handleAction(action.action)}>
+        <CircleButton
+          key={action.action}
+          onClick={() => handleAction(action.action)}
+          disabled={
+            action.action === 'undo' ? !canUndo : action.action === 'redo' ? !canRedo : false
+          }
+        >
           <ActionText>{action.text}</ActionText>
         </CircleButton>
       ))}
@@ -74,6 +85,10 @@ const CircleButton = styled.button`
   }
   &:active {
     background-color: #464cf0;
+  }
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
 `;
 

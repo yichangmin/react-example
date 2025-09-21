@@ -5,7 +5,17 @@ import Counter from './components/Counter';
 import Footer from './components/Footer';
 
 function App() {
-  const { count, inputNumber, increment, decrement, changeInputNumber } = useCounter();
+  const {
+    count,
+    inputNumber,
+    increment,
+    decrement,
+    changeInputNumber,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+  } = useCounter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newNumber = Number(e.target.value);
@@ -16,7 +26,14 @@ function App() {
     <AppContainer>
       <Header />
       <Counter count={count} inputNumber={inputNumber} onInputChange={handleInputChange} />
-      <Footer onIncrement={increment} onDecrement={decrement} />
+      <Footer
+        onIncrement={increment}
+        onDecrement={decrement}
+        onUndo={undo}
+        onRedo={redo}
+        canUndo={canUndo}
+        canRedo={canRedo}
+      />
     </AppContainer>
   );
 }
